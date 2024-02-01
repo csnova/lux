@@ -18,8 +18,10 @@ router.post("/user/sign-in", user_controller.user_sign_in);
 router.post("/user/sign-out", user_controller.user_sign_out);
 
 // Profile Routers
+router.get("/profile/:userID/image", profile_controller.profile_image);
 router.get("/profile/:userID", profile_controller.profile_details);
 router.post("/profile/update", profile_controller.profile_update);
+router.post("/profile/picture", profile_controller.profile_update_picture);
 
 // Post Routers
 router.get("/post/all", post_controller.post_list);
