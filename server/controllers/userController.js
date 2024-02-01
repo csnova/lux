@@ -84,6 +84,7 @@ exports.user_sign_up = [
       const follow = new Follow({
         user: user._id,
         following: [],
+        followers: [],
       });
 
       const path = require("path");
@@ -137,7 +138,7 @@ exports.user_sign_up = [
     });
   }),
 ];
-// curl -X POST http://localhost:3000/lux/user/sign-up -H "Content-Type: application/json" -d '{"first_name":"Kyle", "last_name":"Nova", "email":"knova@email.com", "username":"knova","password": "hellothere", "confirm_password":"hellothere"}'
+// curl -X POST http://localhost:3000/lux/user/sign-up -H "Content-Type: application/json" -d '{"first_name":"Flannery", "last_name":"Hope", "email":"flan@email.com", "username":"flan","password": "cannonrocks", "confirm_password":"cannonrocks"}'
 
 // Handle User sign in on POST.
 exports.user_sign_in = (req, res, next) => {
@@ -166,8 +167,20 @@ exports.user_sign_in = (req, res, next) => {
   })(req, res);
 };
 // curl -X POST http://localhost:3000/lux/user/sign-in -H "Content-Type: application/json" -d '{"username":"csnova", "password": "hellothere"}'
-// token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhY2M0ODA2N2MwYzk5OGVlNGFjNDEiLCJlbWFpbCI6ImNzbm92YUBlbWFpbC5jb20iLCJpYXQiOjE3MDY3NDI4Njl9.7ixIYDo9PjubkxhBWiu6R-uBmbaGcW1Rkyr7CjROcqo
-// userID : 65bacc48067c0c998ee4ac41
+// token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZGIxZDBkNjYyMTRhMTFjZDE3NmQiLCJlbWFpbCI6ImNzbm92YUBlbWFpbC5jb20iLCJpYXQiOjE3MDY4MTAxNDF9.QobAq_W_KCgwUmESVBYkgQp4Wc2L06sRl7ESmjWJWeM
+// userID : 65bbdb1d0d66214a11cd176d
+
+// curl -X POST http://localhost:3000/lux/user/sign-in -H "Content-Type: application/json" -d '{"username":"knova", "password": "hellothere"}'
+// token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZGI0ZTBkNjYyMTRhMTFjZDE3NzQiLCJlbWFpbCI6Imtub3ZhQGVtYWlsLmNvbSIsImlhdCI6MTcwNjgxMDE5MH0.D8fsnjUAO-1uy5TnlA8d0EXZFh535bVJ1ihknppjwVA
+// userID : 65bbdb4e0d66214a11cd1774
+
+// curl -X POST http://localhost:3000/lux/user/sign-in -H "Content-Type: application/json" -d '{"username":"patches", "password": "flatdisc"}'
+// token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZGFkZmQ5MWMxZWM0ZjJjZjUxZjciLCJlbWFpbCI6InBhY3RoZXNAZW1haWwuY29tIiwiaWF0IjoxNzA2ODEwMDc5fQ.PTJm4SYOIDtFHG0E7AVCf1EXt0rTqjzvXF-kmtBVhGI
+// userID : 65bbdadfd91c1ec4f2cf51f7
+
+// curl -X POST http://localhost:3000/lux/user/sign-in -H "Content-Type: application/json" -d '{"username":"flan", "password": "cannonrocks"}'
+// token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZGJhNzA2MGY2ZDMwZjU2ZThhNWQiLCJlbWFpbCI6ImZsYW5AZW1haWwuY29tIiwiaWF0IjoxNzA2ODEwMjc5fQ.Xb8a3fqbCzdYD-hdrH58fDQwu40vWk_Zy3gsaZnTAwc
+// userID : 65bbdba7060f6d30f56e8a5d
 
 // Handle User sign out on POST.
 exports.user_sign_out = asyncHandler(async (req, res, next) => {

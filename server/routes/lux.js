@@ -34,7 +34,8 @@ router.get("/comment/:commentID", comment_controller.comment_detail);
 router.post("/comment/create", comment_controller.comment_create);
 
 // Follow Routers
-router.get("/follow/:userID", follower_controller.follow_list);
+router.get("/following/:userID", follower_controller.following_list);
+router.get("/followers/:userID", follower_controller.followers_list);
 router.post("/follow/add", follower_controller.follow_add);
 
 // Message Routers
@@ -45,7 +46,7 @@ router.post("/message/viewed/all", message_controller.message_viewed_all);
 
 // Thread Routers
 router.get("/thread/messages/:threadID", thread_controller.thread_messages);
-router.get("/thread/unViewed/:userID", thread_controller.thread_unViewed);
+router.get("/thread/unviewed/:userID", thread_controller.thread_unViewed);
 router.get("/thread/:userID", thread_controller.thread_list);
 
 module.exports = router;
