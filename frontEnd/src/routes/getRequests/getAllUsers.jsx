@@ -6,7 +6,7 @@ const getUserList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/user/all`, {
+    fetch(`http://localhost:3000/lux/user/all`, {
       method: "GET",
     })
       .then(async (response) => {

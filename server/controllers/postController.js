@@ -100,7 +100,7 @@ exports.post_create = [
     );
   }),
 ];
-// curl -X POST http://localhost:3000/lux/post/create -H "Content-Type: application/json" -d '{"userID":"65bacc48067c0c998ee4ac41", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhY2M0ODA2N2MwYzk5OGVlNGFjNDEiLCJlbWFpbCI6ImNzbm92YUBlbWFpbC5jb20iLCJpYXQiOjE3MDY3NDI4Njl9.7ixIYDo9PjubkxhBWiu6R-uBmbaGcW1Rkyr7CjROcqo", "title" : "First Post!", "text" : "Joined Lux today!"}'
+// curl -X POST http://localhost:3000/lux/post/create -H "Content-Type: application/json" -d '{"userID":"65bbdb1d0d66214a11cd176d", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJiZGIxZDBkNjYyMTRhMTFjZDE3NmQiLCJlbWFpbCI6ImNzbm92YUBlbWFpbC5jb20iLCJpYXQiOjE3MDY4MTAxNDF9.QobAq_W_KCgwUmESVBYkgQp4Wc2L06sRl7ESmjWJWeM", "title" : "Blueberry Lemon Cake", "text" : "Okay I have made a blueberry lemon cake i am really proud of! Ill post the recipe and maybe a picture soon!"}'
 
 // Handle post like on POST.
 exports.post_like = asyncHandler(async (req, res, next) => {

@@ -6,7 +6,7 @@ const getUserThreads = (userID) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/thread/${userID} `, {
+    fetch(`http://localhost:3000/lux/thread/${userID} `, {
       method: "GET",
     })
       .then(async (response) => {

@@ -6,7 +6,7 @@ const usePostNewMessage = () => {
   const [loading, setLoading] = useState(true);
 
   const attemptNewMessage = useCallback((from, to, text) => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/message/create`, {
+    fetch(`http://localhost:3000/lux/message/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

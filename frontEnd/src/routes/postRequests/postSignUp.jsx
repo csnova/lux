@@ -6,13 +6,15 @@ const usePostSignUp = () => {
   const [loading, setLoading] = useState(true);
 
   const attemptSignUp = useCallback(
-    (email, username, password, confirm_password) => {
-      fetch(`https://parleyserver-production.up.railway.app/parley/user/sign-up`, {
+    (first_name, last_name, email, username, password, confirm_password) => {
+      fetch(`http://localhost:3000/lux/user/sign-up`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          first_name,
+          last_name,
           email,
           username,
           password,

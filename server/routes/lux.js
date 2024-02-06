@@ -34,6 +34,7 @@ router.get("/comment/:commentID", comment_controller.comment_detail);
 router.post("/comment/create", comment_controller.comment_create);
 
 // Follow Routers
+router.get("/following/posts/:userID", follower_controller.following_posts);
 router.get("/following/:userID", follower_controller.following_list);
 router.get("/followers/:userID", follower_controller.followers_list);
 router.post("/follow/add", follower_controller.follow_add);

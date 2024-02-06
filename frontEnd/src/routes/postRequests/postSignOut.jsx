@@ -6,7 +6,7 @@ const usePostSignOut = () => {
   const [loading, setLoading] = useState(true);
 
   const attemptLogout = useCallback(() => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/user/sign-out`, {
+    fetch(`http://localhost:3000/lux/user/sign-out`, {
       method: "POST",
     })
       .then(async (response) => {

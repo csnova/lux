@@ -12,7 +12,7 @@ const ThreadMessages = ({
   threadViewed,
   setUserViewed,
   setCurrentTo,
-  setCurrentFriend,
+  setTypedUser,
 }) => {
   const { threadDetails, error, loading } = getThreadDetails(threadViewed);
   const { attemptMarkAsViewed } = useMarkAsViewed();
@@ -32,7 +32,7 @@ const ThreadMessages = ({
 
   function newMessage(e) {
     setCurrentTo(friendName);
-    setCurrentFriend(friendID);
+    setTypedUser(friendID);
   }
 
   attemptMarkAsViewed(threadViewed, currentUser._id);

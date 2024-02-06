@@ -62,8 +62,7 @@ body {
 }
 
 /* Style for  Top Bar*/
-.topBar,
-.sideBar {
+.topBar {
   display: flex;
   border: 1px solid var(--bar-border-color);
   background-color: var(--bar-background-color);
@@ -93,6 +92,11 @@ body {
 .title {
   width: fit-content;
   margin: 10px;
+}
+
+.title * {
+  text-decoration: none;
+  color: var(--font-color);
 }
 
 .logo {
@@ -129,71 +133,38 @@ body {
   color: var(--dark-font-color);
 }
 
+.searchBox {
+  margin-right: 50px;
+}
+
+.searchBox,
+.searchBoxInput,
+#userOptions {
+  width: 500px;
+}
+
+#userOptionsLink,
+#selectedUser {
+  width: 450px;
+}
+
+#userOptions {
+  position: absolute;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--button-border-color);
+  background-color: var(--form-background-color);
+  width: 500px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
 /* Sets Everything But Top Bar as Flex-Row */
 .centerPage {
   display: flex;
   flex-direction: row;
   max-width: 100vw;
-}
-
-/* Style for Navigation Side Bar */
-.sideBar {
-  flex-grow: 0;
-  font-size: 18px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  width: 170px;
-  min-height: 92vh;
-  max-height: 100%;
-  padding: 5px;
-}
-
-.linkBox {
-  padding: 5px;
-  width: 100%;
-  border: 1px solid var(--bar-border-color);
-  box-shadow: 0 3px 10px var(--bar-shadow-color);
-  color: var(--font-color);
-  text-decoration: none;
-  min-width: 155px;
-}
-
-.linkBox:hover {
-  background-color: var(--page-background-color);
-  color: var(--dark-font-color);
-}
-
-.linkBoxContainer {
-  width: 100%;
-  border: 1px solid var(--bar-border-color);
-  box-shadow: 0 3px 10px var(--bar-shadow-color);
-  color: var(--font-color);
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.linkBoxContainer > h3 {
-  margin: 5px;
-  align-items: center;
-  text-align: center;
-}
-
-.subLinkBox {
-  padding: 5px;
-  margin: 0px;
-  width: 100%;
-  border: 1px solid var(--bar-border-color);
-  color: var(--font-color);
-  font-size: 15px;
-  text-decoration: none;
-}
-
-.subLinkBox:hover {
-  background-color: var(--page-background-color);
-  color: var(--dark-font-color);
 }
 
 /* Style for the Main Content on Every Page */
@@ -650,16 +621,6 @@ input.formToInput {
   width: 600px;
 }
 
-#userOptions {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--button-border-color);
-  background-color: var(--form-background-color);
-  width: 500px;
-  max-height: 200px;
-  overflow-y: scroll;
-}
-
 #selectedUser {
   padding: 10px;
   margin: 10px;
@@ -675,4 +636,276 @@ input.formToInput {
 #selectedUser:hover {
   background-color: var(--bar-background-color);
   color: var(--dark-font-color);
+}
+
+/* Style for User profile page */
+.profilePage {
+  display: flex;
+  width: 100%;
+}
+
+.profileSideBar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid var(--button-border-color);
+}
+
+.userName {
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+
+.pictureBox {
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bar-background-color);
+}
+
+.profilePicture {
+  width: 200px;
+  height: auto;
+  background-color: white;
+}
+
+.profileName {
+  text-align: center;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.userInfo {
+  width: 100%;
+}
+
+.bioBox {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin: 0px 10px;
+  align-items: flex-start;
+}
+
+.bioText,
+.bioTitle {
+  margin: 0px;
+}
+
+.bioTitle {
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+.followAndMessage {
+  border: 3px solid var(--button-border-color);
+  width: 100%;
+  text-align: center;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#followButton,
+#messageButton {
+  width: 100px;
+  height: 40px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--button-border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+}
+
+#followButton:hover,
+#messageButton:hover {
+  background-color: var(--bar-background-color);
+  color: var(--dark-font-color);
+}
+
+#followLink,
+#messageLink {
+  text-decoration: none;
+  color: var(--light-font-color);
+  display: block;
+  width: 100%;
+  line-height: 40px;
+}
+
+#followLink:hover,
+#messageLink:hover {
+  color: var(--dark-font-color);
+}
+
+.followingBox,
+.followersBox {
+  border: 3px solid var(--button-border-color);
+  width: 100%;
+  text-align: center;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.followingTitle,
+.followersTitle {
+  margin: 0;
+}
+
+.followingList,
+.followersList {
+  margin: 0px;
+}
+
+#profileButton {
+  width: 250px;
+  height: 40px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--button-border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+}
+
+#profileButton:hover {
+  background-color: var(--bar-background-color);
+  color: var(--dark-font-color);
+}
+
+#profileLink {
+  text-decoration: none;
+  color: var(--light-font-color);
+  display: block;
+  width: 100%;
+  line-height: 40px;
+}
+
+#profileLink:hover {
+  color: var(--dark-font-color);
+}
+
+.profileNewsFeed {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.allPosts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postBox {
+  width: 100%;
+  max-width: 1000px;
+  border: 3px solid var(--button-border-color);
+  border-radius: 10px;
+  margin: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--form-background-color);
+  color: var(--dark-font-color);
+}
+
+.postBox:hover {
+  background-color: var(--friend-message-color);
+}
+
+.postLink {
+  text-decoration: none;
+  color: var(--dark-font-color);
+}
+
+.postTitleBox,
+.postTextBox {
+  display: flex;
+  justify-content: center;
+}
+
+.postBar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.likeBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.likeIcon {
+  width: 25px;
+  height: 25px;
+}
+
+.commentLink {
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+.commentLink:hover {
+  text-decoration: underline;
+  color: var(--user-message-color);
+}
+
+/* Style for Profile */
+.editIcon {
+  width: 25px;
+  height: auto;
+  margin-top: 5px;
+}
+
+.profileIcon {
+  margin: 0px 10px;
+}
+
+.noPosts {
+  text-align: center;
+}
+
+/* Style to Update Profile */
+.updateUserInfo {
+  display: flex;
+  flex-direction: column;
 }

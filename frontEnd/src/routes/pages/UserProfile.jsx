@@ -2,21 +2,34 @@ import { Link, Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import likeIcon from "../../assets/like.png";
-import editIcon from "../../assets/edit.png";
 import getUserDetails from "../getRequests/getUserDetails";
 import getUserPicture from "../getRequests/getUserPicture";
+import useFollowUser from "../postRequests/postFollowUser";
 import { useNavigate } from "react-router-dom";
 
-const Profile = ({
+const UserProfile = ({
   currentUser,
+  userViewed,
   setUserViewed,
-  setPostViewed,
+  setCurrentTo,
   setTypedUser,
+  setPostViewed,
 }) => {
-  const { userDetails, error, loading } = getUserDetails(currentUser._id);
-  const { userPicture, error1, loading1 } = getUserPicture(currentUser._id);
+  const { userDetails, error, loading } = getUserDetails(userViewed);
+  const { userPicture, error1, loading1 } = getUserPicture(userViewed);
+  const { attemptFollowUser } = useFollowUser();
 
   const navigate = useNavigate();
+
+  function followSubmit(e) {
+    attemptFollowUser(currentUser._id, userViewed);
+    navigate("/userProfile");
+  }
+
+  function newMessage(e) {
+    setCurrentTo(userDetails.profile[0].user.username);
+    setTypedUser(userDetails.profile[0].user._id);
+  }
 
   function setUserId(e) {
     let userID = e.target.className;
@@ -31,6 +44,11 @@ const Profile = ({
 
   if (error || error1) return <p>A Network Error has occurred. </p>;
   if (loading || loading1) return <p>Loading...</p>;
+
+  let following = false;
+  for (let i = 0; i < userDetails.followed.length; i++) {
+    if (userDetails.followed[i]._id === currentUser._id) following = true;
+  }
 
   return (
     <div className="page">
@@ -47,26 +65,42 @@ const Profile = ({
                   src={userPicture}
                   alt="Profile Picture"
                 />
-                <img src={editIcon} alt="edit" className="editIcon" />
               </div>
               <div className="userInfo">
                 <h3 className="profileName">
                   {userDetails.profile[0].first_name}{" "}
                   {userDetails.profile[0].last_name}
-                  <Link to="/updateProfile">
-                    <img
-                      src={editIcon}
-                      alt="edit"
-                      className="editIcon profileIcon"
-                    />
-                  </Link>
                 </h3>
-
                 <div className="bioBox">
                   <p className="bioTitle">Bio: </p>
                   <p className="bioText">{userDetails.profile[0].bio}</p>
                 </div>
               </div>
+            </div>
+            <br />
+            <div className="followAndMessage">
+              {following ? (
+                <>
+                  <button onClick={newMessage} id="messageButton">
+                    <Link to="/newMessage" id="messageLink">
+                      Message
+                    </Link>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={followSubmit} id="followButton">
+                    <Link to="/userProfile" id="followLink">
+                      Follow
+                    </Link>
+                  </button>
+                  <button onClick={newMessage} id="messageButton">
+                    <Link to="/newMessage" id="messageLink">
+                      Message
+                    </Link>
+                  </button>
+                </>
+              )}
             </div>
             <br />
             <div className="followingBox">
@@ -93,7 +127,7 @@ const Profile = ({
                     })}
                   </>
                 ) : (
-                  <p>No Users</p>
+                  <p className="noPosts">No Users</p>
                 )}
               </div>
             </div>
@@ -130,11 +164,11 @@ const Profile = ({
           <div className="profileNewsFeed">
             <h2>Posts</h2>
             {userDetails.posts.length ? (
-              <>
+              <div className="allPosts">
                 {userDetails.posts.map((post, index) => {
                   return (
-                    <div className="postBox">
-                      <button onClick={postSelect} key={post._id}>
+                    <div className="postBox" key={post._id}>
+                      <button onClick={postSelect}>
                         <Link className="postLink" to="/">
                           <div className="postTitleBox">
                             <h3>{post.title}</h3>
@@ -158,7 +192,7 @@ const Profile = ({
                     </div>
                   );
                 })}
-              </>
+              </div>
             ) : (
               <div className="postBox">
                 <p className="noPosts">No Posts</p>
@@ -183,4 +217,4 @@ const Profile = ({
   );
 };
 
-export default Profile;
+export default UserProfile;

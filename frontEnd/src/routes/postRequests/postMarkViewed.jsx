@@ -6,7 +6,7 @@ const useMarkAsViewed = () => {
   const [loading, setLoading] = useState(true);
 
   const attemptMarkAsViewed = useCallback((threadID, currentUser) => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/message/viewed/all`, {
+    fetch(`http://localhost:3000/lux/message/viewed/all`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

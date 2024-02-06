@@ -8,16 +8,13 @@ const { body, validationResult } = require("express-validator");
 
 // Display detail page for a profile.
 exports.profile_details = asyncHandler(async (req, res, next) => {
-  const [profile, following, followers, allPosts] = await Promise.all([
-    Profile.find({ user: req.params.userID }, "user first_name last_name bio  ")
+  const [profile, follow, allPosts] = await Promise.all([
+    Profile.find({ user: req.params.userID }, "user first_name last_name bio ")
       .populate("user")
       .exec(),
-    Follow.find({ user: req.params.userID }, "following").exec(),
-    Follow.find({ following: req.params.userID }, "user").exec(),
+    Follow.find({ user: req.params.userID }).exec(),
     Post.find({ user: req.params.userID }).exec(),
   ]);
-
-  console.log(allPosts);
 
   if (profile === null) {
     // No results.
@@ -27,18 +24,18 @@ exports.profile_details = asyncHandler(async (req, res, next) => {
   }
 
   let followingList = [];
-  for (let i = 0; i < following[0].length; i++) {
+  for (let i = 0; i < follow[0].following.length; i++) {
     const currentFriend = await User.find(
-      { _id: following[i] },
+      { _id: follow[0].following[i] },
       "_id username"
     ).exec();
     followingList.push(currentFriend[0]);
   }
 
   let followersList = [];
-  for (let i = 0; i < followers.length; i++) {
+  for (let i = 0; i < follow[0].followers.length; i++) {
     const currentFriend = await User.find(
-      { _id: followers[i] },
+      { _id: follow[0].followers[i] },
       "_id username"
     ).exec();
     followersList.push(currentFriend[0]);
@@ -51,31 +48,27 @@ exports.profile_details = asyncHandler(async (req, res, next) => {
     posts: allPosts,
   });
 });
-// curl -X GET  http://localhost:3000/lux/profile/65bacc48067c0c998ee4ac41
+// curl -X GET  http://localhost:3000/lux/profile/65bbdb4e0d66214a11cd1774
 
 // Display user profile picture
 exports.profile_image = asyncHandler(async (req, res, next) => {
-  try {
-    const userID = req.params.userID;
-    const [profile] = await Promise.all([
-      Profile.find({ user: userID }).exec(),
-    ]);
+  const [picture] = await Promise.all([
+    Profile.find({ user: req.params.userID }, "picture ").exec(),
+  ]);
 
-    if (!profile || !profile[0].picture) {
-      return res.status(404).send("Image not found");
-    }
-
-    res.set("Content-Type", profile[0].picture.contentType);
-    res.send(profile[0].picture.data.buffer);
-
-    // console.log(profile[0].picture);
-    // res.json(`Profile Picture ${req.params.userID}`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+  if (picture.length === 0) {
+    const err = new Error("Picture not found");
+    err.status = 404;
+    return next(err);
   }
+
+  const imageDataBuffer = Buffer.from(picture[0].picture.data.buffer);
+
+  res.contentType(picture[0].picture.contentType);
+  res.end(imageDataBuffer);
 });
-// curl -X GET  http://localhost:3000/lux/profile/65bacc48067c0c998ee4ac41/image
+
+// curl -X GET  http://localhost:3000/lux/profile/65bbdb4e0d66214a11cd1774/image
 
 // Handle profile update on POST.
 exports.profile_update = [

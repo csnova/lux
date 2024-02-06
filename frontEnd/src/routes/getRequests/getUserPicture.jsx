@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-const getFriendsList = (userID) => {
-  const [friendsList, setFriendsList] = useState(null);
+const getUserPicture = (userID) => {
+  const [userPicture, setUserPicture] = useState(null);
   const [error1, setError] = useState(null);
   const [loading1, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/friend/${userID} `, {
+    fetch(`http://localhost:3000/lux/profile/${userID}/image`, {
       method: "GET",
     })
       .then(async (response) => {
@@ -14,15 +14,15 @@ const getFriendsList = (userID) => {
           throw new Error("server error");
         }
         try {
-          const data = await response.json();
-          setFriendsList(data);
+          const blob = await response.blob();
+          setUserPicture(URL.createObjectURL(blob));
         } catch (error) {
           setError(error);
         }
       })
       .finally(() => setLoading(false));
   }, []);
-  return { friendsList, error1, loading1 };
+  return { userPicture, error1, loading1 };
 };
 
-export default getFriendsList;
+export default getUserPicture;

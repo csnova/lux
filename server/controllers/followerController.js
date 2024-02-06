@@ -1,4 +1,5 @@
 const Follow = require("../models/follow");
+const Post = require("../models/post");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 
@@ -10,7 +11,36 @@ exports.following_list = asyncHandler(async (req, res, next) => {
   ).exec();
   res.json(followingList);
 });
-// curl -X GET  http://localhost:3000/lux/following/65bbdb1d0d66214a11cd176d
+// curl -X GET  http://localhost:3000/lux/following/65bbdb4e0d66214a11cd1774
+
+// Display list posts from who a user is following.
+exports.following_posts = asyncHandler(async (req, res, next) => {
+  const followingList = await Follow.find(
+    { user: req.params.userID },
+    "following"
+  ).exec();
+
+  let posts = [];
+  for (let i = 0; i < followingList[0].following.length; i++) {
+    const currentUser = String(followingList[0].following[i]);
+    const postList = await Post.find(
+      { user: currentUser },
+      "title text user timestamp likes"
+    )
+      .populate("user")
+      .sort({ timestamp: 1 })
+      .exec();
+    for (let j = 0; j < postList.length; j++) {
+      posts.push(postList[j]);
+    }
+  }
+
+  posts.sort((a, b) => b.timestamp - a.timestamp);
+
+  console.log(posts);
+  res.json(posts);
+});
+// curl -X GET  http://localhost:3000/lux/following/posts/65bbdb4e0d66214a11cd1774
 
 // Display list of who is following a user.
 exports.followers_list = asyncHandler(async (req, res, next) => {
@@ -72,4 +102,4 @@ exports.follow_add = asyncHandler(async (req, res, next) => {
     res.json("Success");
   }
 });
-// curl -X POST http://localhost:3000/lux/follow/add -H "Content-Type: application/json" -d '{"currentUser":"65bbdb1d0d66214a11cd176d", "userFollowed": "65bbdb4e0d66214a11cd1774"}'
+// curl -X POST http://localhost:3000/lux/follow/add -H "Content-Type: application/json" -d '{"currentUser":"65bbdb4e0d66214a11cd1774", "userFollowed": "65bbdadfd91c1ec4f2cf51f7"}'

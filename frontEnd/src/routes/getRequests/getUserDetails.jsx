@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-const getNotViewedThreads = (userID) => {
-  const [unreadThreads, setUnreadThreads] = useState(null);
+const getUserDetails = (userID) => {
+  const [userDetails, setUserDetails] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/thread/unViewed/${userID} `, {
+    fetch(`http://localhost:3000/lux/profile/${userID}`, {
       method: "GET",
     })
       .then(async (response) => {
@@ -15,14 +15,14 @@ const getNotViewedThreads = (userID) => {
         }
         try {
           const data = await response.json();
-          setUnreadThreads(data);
+          setUserDetails(data);
         } catch (error) {
           setError(error);
         }
       })
       .finally(() => setLoading(false));
   }, []);
-  return { unreadThreads, error, loading };
+  return { userDetails, error, loading };
 };
 
-export default getNotViewedThreads;
+export default getUserDetails;

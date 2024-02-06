@@ -6,7 +6,7 @@ const usePostSignIn = () => {
   const [loading, setLoading] = useState(true);
 
   const attemptLogin = useCallback((username, password) => {
-    fetch(`https://parleyserver-production.up.railway.app/parley/user/sign-in`, {
+    fetch(`http://localhost:3000/lux/user/sign-in`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

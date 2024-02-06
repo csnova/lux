@@ -2,22 +2,22 @@ import { Link, Outlet } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import getUserList from "../getRequests/getAllUsers";
 import usePostNewMessage from "../postRequests/postNewMessage";
-import getFriendsList from "../getRequests/getFriendsList";
 
 const NewMessage = ({
   currentUser,
   setThreadViewed,
   currentTo,
   setCurrentTo,
-  currentFriend,
-  setCurrentFriend,
+  typedUser,
+  setTypedUser,
 }) => {
   const [possibleTo, setPossibleTo] = useState([]);
   const [isPossible, setIsPossible] = useState(false);
   const [currentText, setCurrentText] = useState("");
   const navigate = useNavigate();
-  const { friendsList, error1, loading1 } = getFriendsList(currentUser._id);
+  const { userList, error, loading } = getUserList();
   const { newMessage, attemptNewMessage } = usePostNewMessage();
 
   useEffect(() => {
@@ -28,20 +28,24 @@ const NewMessage = ({
   }, [newMessage]);
 
   useEffect(() => {
-    if (friendsList) {
-      let current = currentTo.toLowerCase();
-      let length = current.length;
-      let friendObject = [];
-      for (let i = 0; i < friendsList.current.length; i++) {
-        let friend = friendsList.current[i].username;
-        friend = String(friend);
-        friend = friend.slice(0, length);
-        if (friend === current)
-          friendObject.push({
-            username: friendsList.current[i].username,
-            _id: friendsList.current[i]._id,
-          });
-        setPossibleTo(friendObject);
+    if (userList) {
+      if (currentTo.length === 0) {
+        setPossibleTo([]);
+      } else {
+        let current = currentTo.toLowerCase();
+        let length = current.length;
+        let userObject = [];
+        for (let i = 0; i < userList.length; i++) {
+          let user = userList[i].username;
+          user = String(user);
+          user = user.slice(0, length);
+          if (user === current)
+            userObject.push({
+              username: userList[i].username,
+              _id: userList[i]._id,
+            });
+          setPossibleTo(userObject);
+        }
       }
     }
   }, [currentTo]);
@@ -49,13 +53,12 @@ const NewMessage = ({
   useEffect(() => {
     setIsPossible(true);
     setPossibleTo([]);
-  }, [currentFriend]);
+  }, [typedUser]);
 
   function newMessageSubmit(e) {
-    if (isPossible)
-      attemptNewMessage(currentUser._id, currentFriend, currentText);
+    if (isPossible) attemptNewMessage(currentUser._id, typedUser, currentText);
     setPossibleTo([]);
-    setCurrentFriend("");
+    setTypedUser("");
     setCurrentTo("");
   }
 
@@ -67,15 +70,15 @@ const NewMessage = ({
     setCurrentText(e.target.value);
   }
 
-  function selectFriend(e) {
+  function selectUser(e) {
     e.preventDefault();
-    const friend = possibleTo[e.target.className];
-    setCurrentFriend(friend._id);
-    setCurrentTo(friend.username);
+    const user = possibleTo[e.target.className];
+    setTypedUser(user._id);
+    setCurrentTo(user.username);
   }
 
-  if (error1) return <p>A Network Error has occurred. </p>;
-  if (loading1) return <p>Loading...</p>;
+  if (error) return <p>A Network Error has occurred. </p>;
+  if (loading) return <p>Loading...</p>;
   return (
     <div className="page">
       <h1 className="pageTitle">Create Message</h1>
@@ -96,16 +99,16 @@ const NewMessage = ({
                   />
                 </label>
                 <div id="friendOptions">
-                  {possibleTo.map((friend, index) => {
+                  {possibleTo.map((user, index) => {
                     const currentIndex = index;
                     return (
                       <button
                         id="selectedFriend"
                         className={currentIndex}
-                        key={friend._id}
-                        onClick={selectFriend}
+                        key={user._id}
+                        onClick={selectUser}
                       >
-                        {friend.username}
+                        {user.username}
                       </button>
                     );
                   })}

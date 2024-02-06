@@ -13,6 +13,9 @@ const Threads = ({ currentUser, setThreadViewed, setUserViewed }) => {
       {currentUser ? (
         <div className="page">
           <h2 className="tableHeader">Your Message Threads</h2>
+          <Link to="/newMessage" id="userLink">
+            New Message
+          </Link>
           <div className="tableBox">
             <table className="genericTable">
               <thead>

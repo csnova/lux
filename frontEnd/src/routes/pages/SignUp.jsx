@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import usePostSignUp from "../postRequests/postSignUp";
 
 const SignUp = ({ setUserToken, currentUser, setCurrentUser }) => {
+  const [currentFirstName, setCurrentFirstName] = useState("");
+  const [currentLastName, setCurrentLastName] = useState("");
   const [currentUsername, setCurrentUsername] = useState("");
   const [currentEmail, setCurrentEmail] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
@@ -15,6 +17,8 @@ const SignUp = ({ setUserToken, currentUser, setCurrentUser }) => {
 
   function signUpSubmit(e) {
     attemptSignUp(
+      currentFirstName,
+      currentLastName,
       currentEmail,
       currentUsername,
       currentPassword,
@@ -38,6 +42,14 @@ const SignUp = ({ setUserToken, currentUser, setCurrentUser }) => {
       }
     }
   }, [signUp]);
+
+  function handleFirstNameChange(e) {
+    setCurrentFirstName(e.target.value);
+  }
+
+  function handleLastNameChange(e) {
+    setCurrentLastName(e.target.value);
+  }
 
   function handleUsernameChange(e) {
     setCurrentUsername(e.target.value);
@@ -73,10 +85,21 @@ const SignUp = ({ setUserToken, currentUser, setCurrentUser }) => {
       ) : (
         <div className="signInFormBox">
           <form className="signInForm">
+            <h2>Contact Info</h2>
+            <label>
+              First Name:
+              <input type="text" onChange={handleFirstNameChange} required />
+            </label>
+            <label>
+              Last Name:
+              <input type="text" onChange={handleLastNameChange} required />
+            </label>
             <label>
               Email:
               <input type="email" onChange={handleEmailChange} required />
             </label>
+            <br />
+            <h2>Login Info</h2>
             <label>
               Username:
               <input
@@ -86,7 +109,6 @@ const SignUp = ({ setUserToken, currentUser, setCurrentUser }) => {
                 required
               />
             </label>
-            <br />
             <label>
               Password:
               <input

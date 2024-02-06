@@ -27,7 +27,7 @@ exports.user_detail = asyncHandler(async (req, res, next) => {
     user: specificUser,
   });
 });
-// curl -X GET  http://localhost:3000/lux/user/details/65bad1aace6afee055d3345a
+// curl -X GET  http://localhost:3000/lux/user/details/65bbdadfd91c1ec4f2cf51f7
 
 // Display a list of all Users
 exports.user_all = asyncHandler(async (req, res, next) => {
