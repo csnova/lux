@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import logo from "../../assets/logo.svg";
 import getUserList from "../getRequests/getAllUsers";
+import { useNavigate } from "react-router-dom";
 import Summary from "./Summary";
 import SignIn from "./SignIn";
 import SignOut from "./SignOut";
@@ -13,6 +14,9 @@ import ThreadMessages from "./ThreadMessages";
 import UserProfile from "./UserProfile";
 import Profile from "./Profile";
 import UpdateProfile from "./UpdateProfile";
+import PostDetails from "./PostDetails";
+import NewComment from "./NewComment";
+import NewPost from "./NewPost";
 
 function Home() {
   const { userList, error, loading } = getUserList();
@@ -26,6 +30,8 @@ function Home() {
   const [searchedUser, setSearchedUser] = useState([]);
   const [possibleUser, setPossibleUser] = useState([]);
   const { page } = useParams();
+
+  const navigate = useNavigate();
 
   function checkStorage() {
     if (!localStorage.getItem("userToken")) {
@@ -69,10 +75,12 @@ function Home() {
   function handleUserChange(e) {
     setSearchedUser(e.target.value);
   }
+
   function setUserId(e) {
     let userID = e.target.className;
     setUserViewed(userID);
     setSearchedUser("");
+    navigate("/userProfile");
   }
 
   if (error) return <p>A Network Error has occurred. </p>;
@@ -104,13 +112,10 @@ function Home() {
                       <button
                         onClick={setUserId}
                         id="selectedUser"
+                        className={user._id}
                         key={user._id}
                       >
-                        <Link
-                          to="/userProfile"
-                          className={user._id}
-                          id="userOptionsLink"
-                        >
+                        <Link className={user._id} id="userOptionsLink">
                           {user.username}
                         </Link>
                       </button>
@@ -142,72 +147,88 @@ function Home() {
         </div>
       </div>
 
-      <div className="centerPage">
-        <div className="mainPage">
-          <div className="pageSpecificInfo">
-            {page === "sign-in" ? (
-              <SignIn
-                setUserToken={setUserToken}
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            ) : page === "sign-out" ? (
-              <SignOut
-                setUserToken={setUserToken}
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            ) : page === "sign-up" ? (
-              <SignUp
-                setUserToken={setUserToken}
-                currentUser={currentUser}
-                setCurrentUser={setCurrentUser}
-              />
-            ) : page === "threads" ? (
-              <Threads
-                currentUser={currentUser}
-                setThreadViewed={setThreadViewed}
-                setUserViewed={setUserViewed}
-              />
-            ) : page === "threadMessages" ? (
-              <ThreadMessages
-                currentUser={currentUser}
-                threadViewed={threadViewed}
-                setUserViewed={setUserViewed}
-                setCurrentTo={setCurrentTo}
-                setTypedUser={setTypedUser}
-              />
-            ) : page === "newMessage" ? (
-              <NewMessage
-                currentUser={currentUser}
-                setThreadViewed={setThreadViewed}
-                currentTo={currentTo}
-                setCurrentTo={setCurrentTo}
-                typedUser={typedUser}
-                setTypedUser={setTypedUser}
-              />
-            ) : page === "userProfile" ? (
-              <UserProfile
-                currentUser={currentUser}
-                userViewed={userViewed}
-                setUserViewed={setUserViewed}
-                setCurrentTo={setCurrentTo}
-                setTypedUser={setTypedUser}
-                setPostViewed={setPostViewed}
-              />
-            ) : page === "profile" ? (
-              <Profile
-                currentUser={currentUser}
-                setUserViewed={setUserViewed}
-                setPostViewed={setPostViewed}
-                setTypedUser={setTypedUser}
-              />
-            ) : page === "updateProfile" ? (
-              <UpdateProfile currentUser={currentUser} userToken={userToken} />
-            ) : (
-              <Summary currentUser={currentUser} />
-            )}
-          </div>
+      <div className="mainPage">
+        <div className="pageSpecificInfo">
+          {page === "sign-in" ? (
+            <SignIn
+              setUserToken={setUserToken}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          ) : page === "sign-out" ? (
+            <SignOut
+              setUserToken={setUserToken}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          ) : page === "sign-up" ? (
+            <SignUp
+              setUserToken={setUserToken}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          ) : page === "threads" ? (
+            <Threads
+              currentUser={currentUser}
+              setThreadViewed={setThreadViewed}
+              setUserViewed={setUserViewed}
+            />
+          ) : page === "threadMessages" ? (
+            <ThreadMessages
+              currentUser={currentUser}
+              threadViewed={threadViewed}
+              setUserViewed={setUserViewed}
+              setCurrentTo={setCurrentTo}
+              setTypedUser={setTypedUser}
+            />
+          ) : page === "newMessage" ? (
+            <NewMessage
+              currentUser={currentUser}
+              setThreadViewed={setThreadViewed}
+              currentTo={currentTo}
+              setCurrentTo={setCurrentTo}
+              typedUser={typedUser}
+              setTypedUser={setTypedUser}
+            />
+          ) : page === "userProfile" ? (
+            <UserProfile
+              currentUser={currentUser}
+              userViewed={userViewed}
+              setUserViewed={setUserViewed}
+              setCurrentTo={setCurrentTo}
+              setTypedUser={setTypedUser}
+              setPostViewed={setPostViewed}
+            />
+          ) : page === "profile" ? (
+            <Profile
+              currentUser={currentUser}
+              setUserViewed={setUserViewed}
+              setPostViewed={setPostViewed}
+              setTypedUser={setTypedUser}
+            />
+          ) : page === "updateProfile" ? (
+            <UpdateProfile currentUser={currentUser} userToken={userToken} />
+          ) : page === "post" ? (
+            <PostDetails
+              currentUser={currentUser}
+              postViewed={postViewed}
+              setUserViewed={setUserViewed}
+            />
+          ) : page === "newComment" ? (
+            <NewComment
+              currentUser={currentUser}
+              postViewed={postViewed}
+              userToken={userToken}
+            />
+          ) : page === "newPost" ? (
+            <NewPost
+              currentUser={currentUser}
+              userToken={userToken}
+              setPostViewed={setPostViewed}
+            />
+          ) : (
+            <Summary currentUser={currentUser} setPostViewed={setPostViewed} />
+          )}
         </div>
       </div>
     </>

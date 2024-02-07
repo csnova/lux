@@ -160,16 +160,8 @@ body {
   overflow-y: scroll;
 }
 
-/* Sets Everything But Top Bar as Flex-Row */
-.centerPage {
-  display: flex;
-  flex-direction: row;
-  max-width: 100vw;
-}
-
 /* Style for the Main Content on Every Page */
 .mainPage {
-  flex-grow: 1;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -242,10 +234,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-table {
-  max-width: 1200px;
 }
 
 .genericTable {
@@ -403,89 +391,6 @@ textarea {
   flex-grow: 0;
 }
 
-/* Style for Post & User Detail Page */
-.postDetails,
-.userDetails {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.postDetailTopBar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.postDetailButtons * {
-  padding: 5px;
-}
-
-.postDetailTitleBox,
-.postDetailTextBox,
-.commentDetailTextBox,
-.userDetailsBox {
-  width: 100%;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  border: 1px solid var(--bar-border-color);
-  background-color: var(--bar-background-color);
-  box-shadow: 0 3px 10px var(--bar-shadow-color);
-  margin: 0;
-  padding: 15px;
-}
-
-.postDetailTitleBox,
-.commentDetailTextBox {
-  justify-content: center;
-}
-
-.postDetailTextBox {
-  justify-content: start;
-}
-
-.postDetailTitle,
-.postDetailText,
-.commentDetailText,
-.userDetailInfo {
-  font-weight: 400;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.postDetailCommentBox,
-.userCommentBox {
-  width: 100%;
-}
-
-.editButtonBox {
-  display: flex;
-  justify-content: center;
-  height: 40px;
-}
-
-.profileButtons {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Style for update profile page */
-
-.updateProfileInput {
-  max-width: 550px;
-  min-width: 325px;
-  width: 100%;
-}
-
 /* Style for Thread Details Page */
 .threadPage {
   height: 100%;
@@ -607,18 +512,6 @@ input.formToInput {
 #selectedFriend:hover {
   background-color: var(--bar-background-color);
   color: var(--dark-font-color);
-}
-
-.addFriendBox {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.addFriendInput {
-  width: 600px;
 }
 
 #selectedUser {
@@ -849,32 +742,34 @@ input.formToInput {
   background-color: var(--friend-message-color);
 }
 
-.postLink {
+#postLink {
+  height: 100%;
+  width: 100%;
   text-decoration: none;
   color: var(--dark-font-color);
 }
 
-.postTitleBox,
-.postTextBox {
+#postTitleBox,
+#postTextBox {
   display: flex;
   justify-content: center;
 }
 
-.postBar {
+#postBar {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-right: 10px;
 }
 
-.likeBar {
+#likeBar {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 10px;
 }
 
-.likeIcon {
+#likeIcon {
   width: 25px;
   height: 25px;
 }
@@ -908,4 +803,97 @@ input.formToInput {
 .updateUserInfo {
   display: flex;
   flex-direction: column;
+}
+
+/* Style for New Comment */
+.newCommentBox {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 20px;
+}
+
+.newMessageInput {
+  height: 100px;
+  margin: 0;
+}
+
+.newMessageButton {
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--button-border-color);
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+}
+
+.newMessageButton:hover {
+  background-color: var(--user-message-color);
+  color: var(--dark-font-color);
+}
+
+/* Style for Post Specific Page */
+.postDetailCommentBox {
+  width: 100%;
+}
+
+.commentBox {
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+  border: 1px solid var(--button-border-color);
+  border-radius: 5px;
+  width: 500px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.commentUser {
+  font-weight: 700;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.timestampBox {
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+#commentUser {
+  padding: 0px;
+  margin: 10px;
+  min-width: 100px;
+  border: 1px solid var(--button-border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--bar-background-color);
+  color: var(--dark-font-color);
+  text-decoration: none;
+}
+
+#commentUser:hover {
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+}
+
+#userCommentLink {
+  text-decoration: none;
+  color: var(--dark-font-color);
+  display: block;
+  width: 100%;
+  line-height: 30px;
+}
+
+#userCommentLink:hover {
+  color: var(--light-font-color);
+}
+
+/* New Post Style */
+.newPostFormBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

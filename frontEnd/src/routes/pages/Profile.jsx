@@ -133,25 +133,25 @@ const Profile = ({
               <>
                 {userDetails.posts.map((post, index) => {
                   return (
-                    <div className="postBox">
+                    <div className="postBox" key={post._id}>
                       <button onClick={postSelect} key={post._id}>
-                        <Link className="postLink" to="/">
-                          <div className="postTitleBox">
-                            <h3>{post.title}</h3>
+                        <Link id="postLink" className={post._id} to="/post">
+                          <div id="postTitleBox" className={post._id}>
+                            <h3 className={post._id}>{post.title}</h3>
                           </div>
-                          <div className="postTextBox">
-                            <p>{post.text}</p>
+                          <div id="postTextBox" className={post._id}>
+                            <p className={post._id}>{post.text}</p>
                           </div>
-                          <div className="postBar">
-                            <div className="likeBar">
+                          <div id="postBar" className={post._id}>
+                            <div id="likeBar" className={post._id}>
                               <img
                                 src={likeIcon}
-                                className="likeIcon"
+                                id="likeIcon"
+                                className={post._id}
                                 alt="Like Icon"
                               />
-                              <p>({post.likes.length})</p>
+                              <p className={post._id}>({post.likes.length})</p>
                             </div>
-                            <Link className="commentLink"> Comments</Link>
                           </div>
                         </Link>
                       </button>

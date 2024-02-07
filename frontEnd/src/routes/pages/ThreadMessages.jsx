@@ -69,7 +69,7 @@ const ThreadMessages = ({
                       <div className="userTile">
                         <button onClick={onUserClick}>
                           <Link
-                            to="/userProfile1"
+                            to="/userProfile"
                             className={message.from._id}
                             id="userLink"
                           >

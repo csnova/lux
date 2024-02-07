@@ -37,7 +37,6 @@ exports.following_posts = asyncHandler(async (req, res, next) => {
 
   posts.sort((a, b) => b.timestamp - a.timestamp);
 
-  console.log(posts);
   res.json(posts);
 });
 // curl -X GET  http://localhost:3000/lux/following/posts/65bbdb4e0d66214a11cd1774
