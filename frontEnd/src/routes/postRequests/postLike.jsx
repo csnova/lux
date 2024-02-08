@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 const useLikePost = () => {
-  const [likePost, setLikePost] = useState(null);
+  const [likedPost, setLikedPost] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,7 +19,7 @@ const useLikePost = () => {
       .then(async (response) => {
         try {
           let data = await response.json();
-          setLikePost(data);
+          setLikedPost(data);
         } catch (error) {
           setError(error);
         }
@@ -27,7 +27,7 @@ const useLikePost = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  return { likePost, error, loading, attemptLikePost };
+  return { likedPost, error, loading, attemptLikePost };
 };
 
 export default useLikePost;

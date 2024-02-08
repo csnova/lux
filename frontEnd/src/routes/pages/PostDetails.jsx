@@ -8,7 +8,11 @@ import addIcon from "../../assets/add.png";
 import likeIcon from "../../assets/like.png";
 import { useNavigate } from "react-router-dom";
 
-const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
+const PostDetails = ({
+  currentUser,
+  postViewed,
+  setUserViewed,
+}) => {
   const { postDetails, error, loading } = getPostDetails(postViewed);
   const { attemptLikePost } = useLikePost();
 
@@ -19,13 +23,25 @@ const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
 
   function likePost(e) {
     attemptLikePost(currentUser._id, postViewed);
-    navigate("/post");
   }
 
   function setUserId(e) {
     let userID = e.target.className;
     setUserViewed(userID);
   }
+
+  function userSelect(e) {
+    let userID = e.target.className;
+    setUserViewed(userID);
+    if (userID === currentUser._id) {
+      navigate("/profile");
+    } else {
+      navigate("/userProfile");
+    }
+  }
+
+  let postTimestamp = postDetails.post.timestamp;
+  postTimestamp = Moment(postTimestamp).format("h:mm: a, MM/DD/YY, ");
 
   return (
     <div className="page">
@@ -40,6 +56,18 @@ const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
               <p>{postDetails.post.text}</p>
             </div>
             <div id="postBar">
+              <div id="userBar">
+                <button
+                  id="userLink"
+                  className={postDetails.post.user._id}
+                  onClick={userSelect}
+                >
+                  <p id="postUser" className={postDetails.post.user._id}>
+                    {postDetails.post.user.username}
+                  </p>
+                </button>
+                <p id="postTime">{postTimestamp}</p>
+              </div>
               <div id="likeBar">
                 <button onClick={likePost}>
                   <img id="likeIcon" alt="Like Icon" src={likeIcon} />
@@ -48,6 +76,7 @@ const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
               </div>
             </div>
           </div>
+
           <div className="postDetailCommentBox">
             <div className="headerBox">
               <Link className="addButtonBox" to="/newComment">
@@ -57,12 +86,16 @@ const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
                   className="addIcon"
                 />
               </Link>
-              <h2 className="tableHeader">Comments:</h2>
+              <h2 className="tableHeader" id="commentSection">
+                Comments:
+              </h2>
             </div>
             <div className="tableBox">
               {postDetails.comments.map((comment, index) => {
                 let timestamp = comment.timestamp;
                 timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
+                let isUser = false;
+                if (currentUser._id === comment.user._id) isUser = true;
                 return (
                   <>
                     <br />
@@ -72,13 +105,23 @@ const PostDetails = ({ currentUser, postViewed, setUserViewed }) => {
                         id="commentUser"
                         key={comment.user._id}
                       >
-                        <Link
-                          to="/userProfile"
-                          className={comment.user._id}
-                          id="userCommentLink"
-                        >
-                          {comment.user.username}
-                        </Link>
+                        {isUser ? (
+                          <Link
+                            to="/profile"
+                            className={comment.user._id}
+                            id="userCommentLink"
+                          >
+                            {comment.user.username}
+                          </Link>
+                        ) : (
+                          <Link
+                            to="/userProfile"
+                            className={comment.user._id}
+                            id="userCommentLink"
+                          >
+                            {comment.user.username}
+                          </Link>
+                        )}
                       </button>
                       <p className="commentText">{comment.text}</p>
                     </div>

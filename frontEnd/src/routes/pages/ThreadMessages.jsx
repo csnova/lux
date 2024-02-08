@@ -60,6 +60,9 @@ const ThreadMessages = ({
                   let userID = e.target.className;
                   setUserViewed(userID);
                 }
+
+                let isUser = false;
+                if (currentUser._id === message.from._id) isUser = true;
                 return (
                   <div className={className} key={message._id}>
                     <div className="messageTile">
@@ -68,13 +71,23 @@ const ThreadMessages = ({
                     <div className="messageLowerBar">
                       <div className="userTile">
                         <button onClick={onUserClick}>
-                          <Link
-                            to="/userProfile"
-                            className={message.from._id}
-                            id="userLink"
-                          >
-                            {message.from.username}
-                          </Link>
+                          {isUser ? (
+                            <Link
+                              to="/profile"
+                              className={message.from._id}
+                              id="userLink"
+                            >
+                              {message.from.username}
+                            </Link>
+                          ) : (
+                            <Link
+                              to="/userProfile"
+                              className={message.from._id}
+                              id="userLink"
+                            >
+                              {message.from.username}
+                            </Link>
+                          )}
                         </button>
                       </div>
                       <div className="timeTile">

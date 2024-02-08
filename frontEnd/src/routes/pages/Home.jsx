@@ -14,6 +14,7 @@ import ThreadMessages from "./ThreadMessages";
 import UserProfile from "./UserProfile";
 import Profile from "./Profile";
 import UpdateProfile from "./UpdateProfile";
+import ProfilePhotoUpdate from "./PictureUpdate";
 import PostDetails from "./PostDetails";
 import NewComment from "./NewComment";
 import NewPost from "./NewPost";
@@ -80,7 +81,11 @@ function Home() {
     let userID = e.target.className;
     setUserViewed(userID);
     setSearchedUser("");
-    navigate("/userProfile");
+    if (userViewed === currentUser._id) {
+      navigate("/profile");
+    } else {
+      navigate("/userProfile");
+    }
   }
 
   if (error) return <p>A Network Error has occurred. </p>;
@@ -126,6 +131,9 @@ function Home() {
 
               <Link to="/threads" className="currentUserButton">
                 Messages
+              </Link>
+              <Link to="/newPost" className="currentUserButton">
+                New Post
               </Link>
               <Link to="/profile" className="currentUserButton">
                 {currentUser.username}
@@ -208,6 +216,8 @@ function Home() {
             />
           ) : page === "updateProfile" ? (
             <UpdateProfile currentUser={currentUser} userToken={userToken} />
+          ) : page === "updatePicture" ? (
+            <ProfilePhotoUpdate currentUser={currentUser} />
           ) : page === "post" ? (
             <PostDetails
               currentUser={currentUser}
@@ -227,7 +237,11 @@ function Home() {
               setPostViewed={setPostViewed}
             />
           ) : (
-            <Summary currentUser={currentUser} setPostViewed={setPostViewed} />
+            <Summary
+              currentUser={currentUser}
+              setPostViewed={setPostViewed}
+              setUserViewed={setUserViewed}
+            />
           )}
         </div>
       </div>

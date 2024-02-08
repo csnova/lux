@@ -239,15 +239,7 @@ body {
 .genericTable {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-}
-
-.genericTable td {
-  width: 300px;
-}
-
-.genericTable th {
-  width: 150px;
+  width: 1000px;
 }
 
 .genericTable td,
@@ -304,6 +296,19 @@ body {
   text-decoration: none;
 }
 
+#userLinkNoHover {
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid var(--button-border-color);
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  background-color: var(--button-background-color);
+  color: var(--light-font-color);
+  text-decoration: none;
+  pointer-events: none;
+}
+
 #userLink:hover {
   background-color: var(--page-background-color);
   color: var(--dark-font-color);
@@ -314,8 +319,20 @@ body {
   color: var(--light-font-color);
 }
 
+#userLinkNoHover * {
+  text-decoration: none;
+  color: var(--light-font-color);
+  pointer-events: none;
+}
+
 #userLink:hover * {
   color: var(--dark-font-color);
+}
+
+.messageButton {
+  width: 150px;
+  text-align: center;
+  align-self: center;
 }
 
 /* Style for Sign in Form */
@@ -569,7 +586,10 @@ input.formToInput {
 }
 
 .profilePicture {
+  object-position: center top;
+  object-fit: cover;
   width: 200px;
+  max-height: 200px;
   height: auto;
   background-color: white;
 }
@@ -676,7 +696,8 @@ input.formToInput {
   margin: 0px;
 }
 
-#profileButton {
+#profileButton,
+#profileButtonNoHover {
   width: 250px;
   height: 40px;
   padding: 10px;
@@ -690,6 +711,10 @@ input.formToInput {
   font-weight: 700;
   background-color: var(--button-background-color);
   color: var(--light-font-color);
+}
+
+#profileButtonNoHover {
+  pointer-events: none;
 }
 
 #profileButton:hover {
@@ -725,7 +750,14 @@ input.formToInput {
   align-items: center;
 }
 
-.postBox {
+.postDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postBox,
+.postBoxNoHover {
   width: 100%;
   max-width: 1000px;
   border: 3px solid var(--button-border-color);
@@ -736,6 +768,10 @@ input.formToInput {
   justify-content: space-between;
   background-color: var(--form-background-color);
   color: var(--dark-font-color);
+}
+
+.postBoxNoHover {
+  pointer-events: none;
 }
 
 .postBox:hover {
@@ -757,9 +793,25 @@ input.formToInput {
 
 #postBar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-right: 10px;
+}
+
+#postTime {
+  margin-left: 10px;
+}
+
+#userBar {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  margin-left: 20px;
+}
+
+#postUser {
+  margin: 0;
+  padding: 0;
 }
 
 #likeBar {

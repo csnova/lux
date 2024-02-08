@@ -27,6 +27,9 @@ const NewComment = ({ currentUser, postViewed, userToken }) => {
     navigate("/post");
   }
 
+  let postTimestamp = postDetails.post.timestamp;
+  postTimestamp = Moment(postTimestamp).format("h:mm: a, MM/DD/YY, ");
+
   return (
     <div className="page">
       <h1 className="pageTitle">Post Details</h1>
@@ -40,6 +43,12 @@ const NewComment = ({ currentUser, postViewed, userToken }) => {
               <p>{postDetails.post.text}</p>
             </div>
             <div id="postBar">
+              <div id="userBar">
+                <button id="userLink">
+                  <p id="postUser">{postDetails.post.user.username}</p>
+                </button>
+                <p id="postTime">{postTimestamp}</p>
+              </div>
               <div id="likeBar">
                 <img id="likeIcon" alt="Like Icon" src={likeIcon} />
                 <p>({postDetails.post.likes.length})</p>
@@ -63,7 +72,7 @@ const NewComment = ({ currentUser, postViewed, userToken }) => {
             <div className="tableBox">
               {postDetails.comments.map((comment, index) => {
                 let timestamp = comment.timestamp;
-                timestamp = Moment(timestamp).format("MM/DD/YY");
+                timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
                 return (
                   <>
                     <br />

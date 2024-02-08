@@ -5,6 +5,7 @@ const Post = require("../models/post");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
 
 // Display detail page for a profile.
 exports.profile_details = asyncHandler(async (req, res, next) => {
@@ -13,7 +14,7 @@ exports.profile_details = asyncHandler(async (req, res, next) => {
       .populate("user")
       .exec(),
     Follow.find({ user: req.params.userID }).exec(),
-    Post.find({ user: req.params.userID }).exec(),
+    Post.find({ user: req.params.userID }).populate("user").exec(),
   ]);
 
   if (profile === null) {
@@ -133,6 +134,37 @@ exports.profile_update = [
 
 // curl -X POST http://localhost:3000/lux/profile/update -H "Content-Type: application/json" -d '{"userID":"65bacc48067c0c998ee4ac41", "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWJhY2M0ODA2N2MwYzk5OGVlNGFjNDEiLCJlbWFpbCI6ImNzbm92YUBlbWFpbC5jb20iLCJpYXQiOjE3MDY3NDI4Njl9.7ixIYDo9PjubkxhBWiu6R-uBmbaGcW1Rkyr7CjROcqo","first_name":"Chandler","last_name":"Nova","bio":"fake stuff"}'
 
+// Server route to handle photo upload
 exports.profile_update_picture = asyncHandler(async (req, res, next) => {
-  res.json(`Profile Update Picture ${req.body.userID}`);
+  const profile = await Profile.findOne({ user: req.params.userID });
+
+  console.log("files: ", req.files[0]);
+  // let picture = req.body.formData.get("photo");
+  // console.log("picture", picture);
+
+  if (!profile) {
+    const err = new Error("Profile not found");
+    err.status = 404;
+    return next(err);
+  }
+
+  if (!req.files || !req.files[0]) {
+    console.log("No Photo");
+    const err = new Error("No photo uploaded");
+    err.status = 400;
+    return next(err);
+  }
+
+  const photo = req.files[0];
+  const imageContentType = photo.mimetype;
+  const imageData = photo.buffer;
+
+  profile.picture = {
+    data: imageData,
+    contentType: imageContentType,
+  };
+
+  await profile.save();
+
+  res.json({ message: "Photo uploaded successfully" });
 });

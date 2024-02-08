@@ -4,14 +4,39 @@ import React, { useEffect, useState } from "react";
 import likeIcon from "../../assets/like.png";
 import getNewsFeed from "../getRequests/getNewsFeed";
 import Moment from "moment";
+import { useNavigate } from "react-router-dom";
 
-const Summary = ({ currentUser, setPostViewed }) => {
+const Summary = ({ currentUser, setPostViewed, setUserViewed }) => {
   const { postList, error, loading } = getNewsFeed(currentUser._id);
+  const navigate = useNavigate();
 
   function postSelect(e) {
     let postID = e.target.className;
     setPostViewed(postID);
   }
+
+  const commentSelect = (e) => {
+    let postID = e.target.className;
+    setPostViewed(postID);
+    navigate("/post");
+    setTimeout(() => {
+      const commentSection = document.getElementById("commentSection");
+      if (commentSection) {
+        commentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
+
+  function userSelect(e) {
+    let userID = e.target.className;
+    setUserViewed(userID);
+    if (userID === currentUser._id) {
+      navigate("/profile");
+    } else {
+      navigate("/userProfile");
+    }
+  }
+
 
   if (error) return <p>A Network Error has occurred. </p>;
   if (loading) return <p>Loading...</p>;
@@ -24,6 +49,8 @@ const Summary = ({ currentUser, setPostViewed }) => {
             {postList.length ? (
               <div className="allPosts">
                 {postList.map((post, index) => {
+                  let timestamp = post.timestamp;
+                  timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
                   return (
                     <div className="postBox" key={post._id}>
                       <button onClick={postSelect}>
@@ -34,19 +61,38 @@ const Summary = ({ currentUser, setPostViewed }) => {
                           <div id="postTextBox" className={post._id}>
                             <p className={post._id}>{post.text}</p>
                           </div>
-                          <div id="postBar" className={post._id}>
-                            <div id="likeBar" className={post._id}>
-                              <img
-                                src={likeIcon}
-                                className={post._id}
-                                id="likeIcon"
-                                alt="Like Icon"
-                              />
-                              <p className={post._id}>({post.likes.length})</p>
-                            </div>
-                          </div>
                         </Link>
                       </button>
+                      <div id="postBar" className={post._id}>
+                        <div id="userBar">
+                          <button
+                            id="userLink"
+                            className={post.user._id}
+                            onClick={userSelect}
+                          >
+                            <p id="postUser" className={post.user._id}>
+                              {post.user.username}
+                            </p>
+                          </button>
+                          <p id="postTime">{timestamp}</p>
+                        </div>
+                        <div id="likeBar" className={post._id}>
+                          <img
+                            src={likeIcon}
+                            className={post._id}
+                            id="likeIcon"
+                            alt="Like Icon"
+                          />
+                          <p className={post._id}>({post.likes.length})</p>
+                          <button
+                            id="userLink"
+                            className={post._id}
+                            onClick={commentSelect}
+                          >
+                            Comment
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

@@ -6,6 +6,7 @@ import useUpdateProfile from "../postRequests/postUpdateProfile";
 import getUserDetails from "../getRequests/getUserDetails";
 import getUserPicture from "../getRequests/getUserPicture";
 import { useNavigate } from "react-router-dom";
+import Moment from "moment";
 
 const UpdateProfile = ({ currentUser, userToken }) => {
   const { userDetails, error, loading } = getUserDetails(currentUser._id);
@@ -102,7 +103,7 @@ const UpdateProfile = ({ currentUser, userToken }) => {
                   <>
                     {userDetails.following.map((user, index) => {
                       return (
-                        <button id="profileButton" key={user._id}>
+                        <button id="profileButtonNoHover" key={user._id}>
                           <Link className={user._id} id="profileLink">
                             {user.username}
                           </Link>
@@ -123,7 +124,7 @@ const UpdateProfile = ({ currentUser, userToken }) => {
                   <>
                     {userDetails.followed.map((user, index) => {
                       return (
-                        <button id="profileButton" key={user._id}>
+                        <button id="profileButtonNoHover" key={user._id}>
                           <Link className={user._id} id="profileLink">
                             {user.username}
                           </Link>
@@ -142,35 +143,39 @@ const UpdateProfile = ({ currentUser, userToken }) => {
             {userDetails.posts.length ? (
               <>
                 {userDetails.posts.map((post, index) => {
+                  let timestamp = post.timestamp;
+                  timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
                   return (
-                    <div className="postBox">
-                      <button key={post._id}>
-                        <Link id="postLink" className={post._id}>
-                          <div id="postTitleBox" className={post._id}>
-                            <h3 className={post._id}>{post.title}</h3>
+                    <div className="postBoxNoHover" key={post._id}>
+                      <button>
+                        <Link id="postLink">
+                          <div id="postTitleBox">
+                            <h3>{post.title}</h3>
                           </div>
-                          <div id="postTextBox" className={post._id}>
+                          <div id="postTextBox">
                             <p>{post.text}</p>
-                          </div>
-                          <div id="postBar" className={post._id}>
-                            <div id="likeBar" className={post._id}>
-                              <img
-                                src={likeIcon}
-                                id="likeIcon"
-                                className={post._id}
-                                alt="Like Icon"
-                              />
-                              <p className={post._id}>({post.likes.length})</p>
-                            </div>
                           </div>
                         </Link>
                       </button>
+                      <div id="postBar">
+                        <div id="userBar">
+                          <button id="userLinkNoHover">
+                            <p id="postUser">{currentUser.username}</p>
+                          </button>
+                          <p id="postTime">{timestamp}</p>
+                        </div>
+                        <div id="likeBar">
+                          <img src={likeIcon} id="likeIcon" alt="Like Icon" />
+                          <p className={post._id}>({post.likes.length})</p>
+                          <button id="userLinkNoHover">Comment</button>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
               </>
             ) : (
-              <div className="postBox">
+              <div className="postBoxNoHover">
                 <p className="noPosts">No Posts</p>
               </div>
             )}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const getPostDetails = (postID) => {
+const getPostDetails = (postID, postLiked) => {
   const [postDetails, setPostDetails] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,7 +21,7 @@ const getPostDetails = (postID) => {
         }
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [postLiked]);
   return { postDetails, error, loading };
 };
 

@@ -21,7 +21,8 @@ const getUserDetails = (userID) => {
         }
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [userID]);
+
   return { userDetails, error, loading };
 };
 

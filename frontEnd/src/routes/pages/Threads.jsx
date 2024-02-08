@@ -13,7 +13,7 @@ const Threads = ({ currentUser, setThreadViewed, setUserViewed }) => {
       {currentUser ? (
         <div className="page">
           <h2 className="tableHeader">Your Message Threads</h2>
-          <Link to="/newMessage" id="userLink">
+          <Link to="/newMessage" id="userLink" className="messageButton">
             New Message
           </Link>
           <div className="tableBox">
@@ -56,7 +56,7 @@ const Threads = ({ currentUser, setThreadViewed, setUserViewed }) => {
                       <td>
                         <button onClick={onUserClick}>
                           <Link
-                            to="/userProfile1"
+                            to="/userProfile"
                             className={userButtonClass}
                             id="userLink"
                           >

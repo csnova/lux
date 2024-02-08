@@ -6,6 +6,7 @@ import editIcon from "../../assets/edit.png";
 import getUserDetails from "../getRequests/getUserDetails";
 import getUserPicture from "../getRequests/getUserPicture";
 import { useNavigate } from "react-router-dom";
+import Moment from "moment";
 
 const Profile = ({
   currentUser,
@@ -29,6 +30,18 @@ const Profile = ({
     setPostViewed(postID);
   }
 
+  const commentSelect = (e) => {
+    let postID = e.target.className;
+    setPostViewed(postID);
+    navigate("/post");
+    setTimeout(() => {
+      const commentSection = document.getElementById("commentSection");
+      if (commentSection) {
+        commentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
+
   if (error || error1) return <p>A Network Error has occurred. </p>;
   if (loading || loading1) return <p>Loading...</p>;
 
@@ -47,7 +60,13 @@ const Profile = ({
                   src={userPicture}
                   alt="Profile Picture"
                 />
-                <img src={editIcon} alt="edit" className="editIcon" />
+                <Link to="/updatePicture">
+                    <img
+                      src={editIcon}
+                      alt="edit"
+                      className="editIcon"
+                    />
+                  </Link>
               </div>
               <div className="userInfo">
                 <h3 className="profileName">
@@ -132,9 +151,11 @@ const Profile = ({
             {userDetails.posts.length ? (
               <>
                 {userDetails.posts.map((post, index) => {
+                  let timestamp = post.timestamp;
+                  timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
                   return (
                     <div className="postBox" key={post._id}>
-                      <button onClick={postSelect} key={post._id}>
+                      <button onClick={postSelect}>
                         <Link id="postLink" className={post._id} to="/post">
                           <div id="postTitleBox" className={post._id}>
                             <h3 className={post._id}>{post.title}</h3>
@@ -142,19 +163,37 @@ const Profile = ({
                           <div id="postTextBox" className={post._id}>
                             <p className={post._id}>{post.text}</p>
                           </div>
-                          <div id="postBar" className={post._id}>
-                            <div id="likeBar" className={post._id}>
-                              <img
-                                src={likeIcon}
-                                id="likeIcon"
-                                className={post._id}
-                                alt="Like Icon"
-                              />
-                              <p className={post._id}>({post.likes.length})</p>
-                            </div>
-                          </div>
                         </Link>
                       </button>
+                      <div id="postBar" className={post._id}>
+                        <div id="userBar">
+                          <button
+                            id="userLinkNoHover"
+                            className={post.user._id}
+                          >
+                            <p id="postUser" className={post.user._id}>
+                              {currentUser.username}
+                            </p>
+                          </button>
+                          <p id="postTime">{timestamp}</p>
+                        </div>
+                        <div id="likeBar" className={post._id}>
+                          <img
+                            src={likeIcon}
+                            className={post._id}
+                            id="likeIcon"
+                            alt="Like Icon"
+                          />
+                          <p className={post._id}>({post.likes.length})</p>
+                          <button
+                            id="userLink"
+                            className={post._id}
+                            onClick={commentSelect}
+                          >
+                            Comment
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage })
 
 // Require controller modules.
 const user_controller = require("../controllers/userController");
@@ -21,7 +24,7 @@ router.post("/user/sign-out", user_controller.user_sign_out);
 router.get("/profile/:userID/image", profile_controller.profile_image);
 router.get("/profile/:userID", profile_controller.profile_details);
 router.post("/profile/update", profile_controller.profile_update);
-router.post("/profile/picture", profile_controller.profile_update_picture);
+router.post("/profile/picture/:userID", upload.any(), profile_controller.profile_update_picture);
 
 // Post Routers
 router.get("/post/all", post_controller.post_list);

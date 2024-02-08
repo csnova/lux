@@ -6,6 +6,7 @@ import getUserDetails from "../getRequests/getUserDetails";
 import getUserPicture from "../getRequests/getUserPicture";
 import useFollowUser from "../postRequests/postFollowUser";
 import { useNavigate } from "react-router-dom";
+import Moment from "moment";
 
 const UserProfile = ({
   currentUser,
@@ -23,7 +24,6 @@ const UserProfile = ({
 
   function followSubmit(e) {
     attemptFollowUser(currentUser._id, userViewed);
-    navigate("/userProfile");
   }
 
   function newMessage(e) {
@@ -40,6 +40,26 @@ const UserProfile = ({
   function postSelect(e) {
     let postID = e.target.className;
     setPostViewed(postID);
+  }
+
+  const commentSelect = (e) => {
+    let postID = e.target.className;
+    setPostViewed(postID);
+    navigate("/post");
+    setTimeout(() => {
+      const commentSection = document.getElementById("commentSection");
+      if (commentSection) {
+        commentSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
+  };
+
+  function userSelect(e) {
+    let userID = e.target.className;
+    setUserViewed(userID);
+    if (userID === currentUser._id) {
+      navigate("/profile");
+    }
   }
 
   if (error || error1) return <p>A Network Error has occurred. </p>;
@@ -90,7 +110,7 @@ const UserProfile = ({
               ) : (
                 <>
                   <button onClick={followSubmit} id="followButton">
-                    <Link to="/userProfile" id="followLink">
+                    <Link id="followLink">
                       Follow
                     </Link>
                   </button>
@@ -116,7 +136,6 @@ const UserProfile = ({
                           key={user._id}
                         >
                           <Link
-                            to="/userProfile"
                             className={user._id}
                             id="profileLink"
                           >
@@ -145,7 +164,6 @@ const UserProfile = ({
                           key={user._id}
                         >
                           <Link
-                            to="/userProfile"
                             className={user._id}
                             id="profileLink"
                           >
@@ -166,6 +184,8 @@ const UserProfile = ({
             {userDetails.posts.length ? (
               <>
                 {userDetails.posts.map((post, index) => {
+                  let timestamp = post.timestamp;
+                  timestamp = Moment(timestamp).format("h:mm: a, MM/DD/YY, ");
                   return (
                     <div className="postBox" key={post._id}>
                       <button onClick={postSelect}>
@@ -176,19 +196,38 @@ const UserProfile = ({
                           <div id="postTextBox" className={post._id}>
                             <p className={post._id}>{post.text}</p>
                           </div>
-                          <div id="postBar" className={post._id}>
-                            <div id="likeBar" className={post._id}>
-                              <img
-                                src={likeIcon}
-                                id="likeIcon"
-                                className={post._id}
-                                alt="Like Icon"
-                              />
-                              <p className={post._id}>({post.likes.length})</p>
-                            </div>
-                          </div>
                         </Link>
                       </button>
+                      <div id="postBar" className={post._id}>
+                        <div id="userBar">
+                          <button
+                            id="userLink"
+                            className={post.user._id}
+                            onClick={userSelect}
+                          >
+                            <p id="postUser" className={post.user._id}>
+                              {post.user.username}
+                            </p>
+                          </button>
+                          <p id="postTime">{timestamp}</p>
+                        </div>
+                        <div id="likeBar" className={post._id}>
+                          <img
+                            src={likeIcon}
+                            className={post._id}
+                            id="likeIcon"
+                            alt="Like Icon"
+                          />
+                          <p className={post._id}>({post.likes.length})</p>
+                          <button
+                            id="userLink"
+                            className={post._id}
+                            onClick={commentSelect}
+                          >
+                            Comment
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   );
                 })}

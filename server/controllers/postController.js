@@ -28,7 +28,7 @@ exports.post_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific post.
 exports.post_detail = asyncHandler(async (req, res, next) => {
   const [post, allComments] = await Promise.all([
-    Post.findById(req.params.postID).exec(),
+    Post.findById(req.params.postID).populate("user").exec(),
     Comment.find({ post: req.params.postID }, "text timestamp user likes")
       .populate("user")
       .exec(),
